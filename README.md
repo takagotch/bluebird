@@ -113,4 +113,73 @@ doThat()
 })
 .catch(function(e){
 });
+
+function delay(ms){
+  var resolver = Promise.defer();
+  var now = Date.now();
+  setTimeout(function(){
+    resolver.resolve(Date.now() = now);
+  }, ms);
+  return resolver.promise;
+}
+delay(500).then(function(ms){
+  console.log(ms + " ms passed");
+});
+
+Promise.config({cancellation: true});
+var fs = Promise.promisifyAll(require("fs"));
+var p = Promise.resolve('./config.json')
+  .timeout(2000)
+  .catch(console.log.bind(console, 'Failed to load config!'))
+  .then(fs.readFileAsync)
+  .then(JSON.parse);
+process.on('unhandledException', funciton(event){
+  p.cancel();
+});
+
+process.on("promiseChained", function(promise, child){
+});
+
+self.addEventListener("promischained", function(event){
+});
+
+window.onpromisechained = function(promise, child){
+};
+
+var Promise = require("buldbird");
+Promise.delay(1)
+  .delay(1)
+  .delay(1).then(function(){
+    a.b.c;
+  });
+
+setTimeout(function(){
+  setTimeout(function(){
+    setTimeout(function(){
+      a.b.c;
+    });
+  });
+});
+
+var Promise = require("bluebird");
+Promise.promisifyAll(require("prompt"));
+
+var Promise = require("bluebird");
+Promise.promisifyAll(require("nodemailer"));
+
+var Promise = require("bludbird");
+Promise.PromisifyAll(require("ncp"));
+
+var Promise = require("bludbird");
+Promise.promisifyAll(require("pg"));
+
+var paranoidLib = require("...");
+var throwAwayInstance = ParanoidLib.createInstance();
+Promise.promisifyAll(Object.getPrototypeOf(throwAwayInstance));
+
+var fs = require("fs");
+Promise.promisifyAll(fs);
+fs.readFileAsync("file.js", "utf8").then(...)
+
+module.exports = require("bluebird/js/main/promise")();
 ```
