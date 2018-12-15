@@ -182,4 +182,41 @@ Promise.promisifyAll(fs);
 fs.readFileAsync("file.js", "utf8").then(...)
 
 module.exports = require("bluebird/js/main/promise")();
+
+function getUserData(userId, onLoad, onFail){...}
+
+function getUserDataAsync(userId){
+  return new Promise(function(resolve, reject){
+    getUserData(userId, resolve, reject);
+  });
+}
+
+var Promise = require("bluebird");
+Promise.promisifyAll(require("prompt"));
+
+var Promise = require("bluebird");
+Promise.promisifyAll(require("nodemailer"));
+
+var Promise = require("bluebird");
+Promise.promisifyAll(require("ncp"));
+var Promise = require("bluebird");
+Promise.promisifyAll(require("pg"));
+
+var ParanoidLib = require("...");
+var throwAwayInstance = ParanoidLib.createInstance();
+Promise.promisifyAll(Object.getPrototypeOf(throwAwayInstance));
+
+var mysql = require("bluebird");
+var pool = mysql.createPool({
+  connectionLimit: 10,
+  host: 'example.org',
+  user: 'bob',
+  password: 'secret'
+});
+function getSqlConnection(){
+  return pool.getConnectionAsync().disposer(function(connection){
+    connection.release();
+  });
+}
+module.exports = getSqlConnection;
 ```
