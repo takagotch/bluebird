@@ -2,6 +2,8 @@
 ---
 https://github.com/petkaantonov/bluebird/
 
+promises, controllflow
+
 ```
 npm install bluebird
 ```
