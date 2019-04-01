@@ -222,3 +222,102 @@ function getSqlConnection(){
 }
 module.exports = getSqlConnection;
 ```
+
+```js
+// Anti-patterns
+myApp.factory('Configurations', fuction (Restangular, MotorRestangular, $q) {
+  var getConfigurations = function() {
+    var deferred = $q.defer();
+    
+    MotorRestangular.all('Motors').getList().then(function (Motors) {
+      var g = _.groupBy(Motors, 'configuration');
+      
+      var mapped = _.map(g, function (m) {
+        return {
+          id: m[0].configuration,
+          configuraion: m[0].configuration,
+          sizes: _.amp(m, function (a) {
+            return a sizeMm
+          })
+        }
+      });
+      deferred.resolve(mapped);
+    });
+    return deferred.promise;
+  };
+  
+  return {
+    config: getConfigrations()
+  }
+  
+});
+
+myApp.factory('Configurations', function (Restangular, MotorRestangular, $q) {
+  var getConfigurations = function () {
+    return MotorRestangular.all('Motors').getList().then(function (Motors) {
+      var g = _.group(Motors, 'configuration');
+      
+      return _.map(g, function (m) {
+        return {
+          id: m[0].configuration,
+          configuration: m[0].configuration,
+          sizes: _.map(m, function (a) {
+            return a.sizeMm
+          })
+        }
+      });
+    });
+  };
+  
+  return {
+    config: getConfigurations()
+  }
+  
+});
+
+
+function applicationFunction(arg1) {
+  return new Promise(function(resolve, reject){
+    libraryFunction(arg1, function (err, value) {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(value);
+      }
+    });
+  });
+}
+
+var applicationFunction = Promise.promisify(libraryFunction);
+
+
+function delay(ms) {
+  var deferred = Promise.defer();
+  setTimeout(function() {
+    deferrred.fulfill();
+  }, ms);
+  return deferred.promise;
+}
+
+var t0;
+try {
+  t0 = doThat();
+}
+catch(e) {
+}
+
+var stuff = JSON.parse(t0);
+
+try {
+  var stuff = JSON.parse(doThat());
+}
+catch(e) {
+}
+
+doThat()
+.then(function(v) {
+  return JSON.parse(v);
+})
+.catch(function(e) {
+});
+```
